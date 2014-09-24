@@ -11,10 +11,10 @@ import Social
 import MobileCoreServices
 import CoreGraphics
 
-class ShareViewController: SLComposeServiceViewController {
+class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate, StackTableViewControllerDelegate {
     
     let kMaxCharactersAllowed = 100
-    let kUploadURL = "http://requestb.in/1mjsquq1"
+    let kUploadURL = "http://requestb.in/1albjne1"
     let kURL = "URL"
     let kImage = "IMAGE"
     let kText = "TEXT"
@@ -23,6 +23,10 @@ class ShareViewController: SLComposeServiceViewController {
     var image: UIImage?
     var url: NSURL?
     var type: NSString?
+    var stack: NSString?
+    
+    var stackConfigurationItem: SLComposeSheetConfigurationItem?
+    var array: NSArray = []
 
     override func isContentValid() -> Bool {
         // Do validation of contentText and/or NSExtensionContext attachments here
@@ -66,6 +70,8 @@ class ShareViewController: SLComposeServiceViewController {
             }
         }
         
+        self.stack = self.stackConfigurationItem?.value
+        
     }
     
     override func didSelectPost() {
@@ -87,10 +93,10 @@ class ShareViewController: SLComposeServiceViewController {
             data = self.url?.absoluteString
         }
         
-        addToDefaults(data, text: contentText, type: self.type!)
+        addToDefaults(data, text: contentText, type: self.type!, stack: self.stack!)
         
         // Prepare the URL Request
-        let request = urlRequestWithData(data!, text:contentText, type: self.type!)
+        let request = urlRequestWithData(data!, text:contentText, type: self.type!, stack: self.stack!)
         
         // Create the task, and kick it off
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request!)
@@ -99,12 +105,6 @@ class ShareViewController: SLComposeServiceViewController {
         
         // Inform the host that we're done, so it un-blocks its UI. Note: Alternatively you could call super's -didSelectPost, which will similarly complete the extension context.
         extensionContext?.completeRequestReturningItems([AnyObject](), completionHandler: nil)
-    }
-
-    
-    override func configurationItems() -> [AnyObject]! {
-        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here.
-        return NSArray()
     }
     
     func urlRequestWithImage(image: UIImage?, text: String) -> NSURLRequest? {
@@ -135,7 +135,7 @@ class ShareViewController: SLComposeServiceViewController {
         return request
     }
     
-    func urlRequestWithData(data: NSString, text: String, type: String) -> NSURLRequest? {
+    func urlRequestWithData(data: NSString, text: String, type: String, stack: String) -> NSURLRequest? {
         
         let uploadURL = NSURL.URLWithString(kUploadURL)
         let request = NSMutableURLRequest(URL: uploadURL)
@@ -146,6 +146,7 @@ class ShareViewController: SLComposeServiceViewController {
         var jsonObject = NSMutableDictionary()
         jsonObject["text"] = text
         jsonObject["type"] = type
+        jsonObject["stack"] = stack;
         jsonObject["data"] = data//.substringToIndex(2000)
         println(data.length)
         
@@ -165,13 +166,46 @@ class ShareViewController: SLComposeServiceViewController {
         return request
     }
     
-    func addToDefaults(data: NSString?, text: String, type: String) {
+    func addToDefaults(data: NSString?, text: String, type: String, stack: String) {
         let mySharedDefaults = NSUserDefaults(suiteName:"group.jeremyrosslevine.ShareUploadSwift")
         mySharedDefaults.setObject(data, forKey:"data")
         mySharedDefaults.setObject(text, forKey:"text")
         mySharedDefaults.setObject(type, forKey:"type")
-        mySharedDefaults.setObject(" ", forKey:"stack")
+        mySharedDefaults.setObject(stack, forKey:"stack")
 
+    }
+
+    
+    override func configurationItems() -> [AnyObject]! {
+        // To add configuration options via table cells at the bottom of the sheet, return an array of SLComposeSheetConfigurationItem here
+    
+        var configTable: StackTableViewController = StackTableViewController()
+        configTable.size = self.preferredContentSize
+        self.array = ["Cardbox", "My Favorite Photos", "My Favorite Websites", "My Favorite Videos"]
+        configTable.optionNames = self.array.mutableCopy() as NSMutableArray
+        configTable.delegate = self
+        configTable.title = "Stack"
+    
+        self.stackConfigurationItem = SLComposeSheetConfigurationItem()
+        self.stackConfigurationItem?.title = "Stack"
+        self.stackConfigurationItem?.value = self.array[0] as NSString
+        
+    
+        var weakSelf: ShareViewController = self
+        self.stackConfigurationItem?.tapHandler = {
+            var strongSelf: ShareViewController? = weakSelf
+            if(strongSelf != nil) {
+                strongSelf?.pushConfigurationViewController(configTable)
+            }
+        };
+        
+        return [self.stackConfigurationItem!]
+    }
+
+    
+    func didSelectOptionAtIndexPath(indexPath: NSIndexPath) {
+        self.stackConfigurationItem?.value = self.array[indexPath.row] as String
+        self.popConfigurationViewController()
     }
 
 }

@@ -24,6 +24,8 @@ class ViewController: UIViewController {
         var data: NSString? = nil
         var text: NSString? = nil
         var type: NSString? = nil
+        var stack: NSString? = nil
+
 
         
         
@@ -35,6 +37,9 @@ class ViewController: UIViewController {
         }
         if let tempType: NSString = mySharedDefaults.objectForKey("type") as? NSString {
             type = tempType
+        }
+        if let tempStack: NSString = mySharedDefaults.objectForKey("stack") as? NSString {
+            stack = tempStack
         }
 
 
@@ -60,10 +65,15 @@ class ViewController: UIViewController {
             return
         }
         
-        let label: UILabel = UILabel(frame: CGRectMake(10, self.view.frame.size.height/2+75, self.view.frame.size.width-20, 100));
-        label.text = text;
-        label.textAlignment = NSTextAlignment.Center;
-        self.view.addSubview(label)
+        let textLabel: UILabel = UILabel(frame: CGRectMake(10, self.view.frame.size.height/2+75, self.view.frame.size.width-20, 100));
+        textLabel.text = text;
+        textLabel.textAlignment = NSTextAlignment.Center;
+        self.view.addSubview(textLabel)
+        
+        let stackLabel: UILabel = UILabel(frame: CGRectMake(10, self.view.frame.size.height/2+175, self.view.frame.size.width-20, 100));
+        stackLabel.text = stack;
+        stackLabel.textAlignment = NSTextAlignment.Center;
+        self.view.addSubview(stackLabel)
         
     }
 

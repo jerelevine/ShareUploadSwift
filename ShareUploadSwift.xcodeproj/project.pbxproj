@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FF66D5E219D24E87000949F4 /* StackTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF66D5E119D24E87000949F4 /* StackTableViewController.swift */; };
 		FFA5681819D0958300520C9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA5681719D0958300520C9D /* AppDelegate.swift */; };
 		FFA5681A19D0958300520C9D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFA5681919D0958300520C9D /* ViewController.swift */; };
 		FFA5681D19D0958300520C9D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FFA5681B19D0958300520C9D /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FF66D5E119D24E87000949F4 /* StackTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackTableViewController.swift; sourceTree = "<group>"; };
 		FFA5681219D0958300520C9D /* ShareUploadSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareUploadSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFA5681619D0958300520C9D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FFA5681719D0958300520C9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 			children = (
 				FFA5684D19D095B300520C9D /* ShareUploadSwiftExt.entitlements */,
 				FFA5683F19D0959000520C9D /* ShareViewController.swift */,
+				FF66D5E119D24E87000949F4 /* StackTableViewController.swift */,
 				FFA5684119D0959000520C9D /* MainInterface.storyboard */,
 				FFA5683D19D0959000520C9D /* Supporting Files */,
 			);
@@ -339,6 +342,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF66D5E219D24E87000949F4 /* StackTableViewController.swift in Sources */,
 				FFA5684019D0959000520C9D /* ShareViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -573,6 +577,7 @@
 				FFA5683319D0958300520C9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FFA5683419D0958300520C9D /* Build configuration list for PBXNativeTarget "ShareUploadSwiftTests" */ = {
 			isa = XCConfigurationList;
@@ -581,6 +586,7 @@
 				FFA5683619D0958300520C9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FFA5684819D0959000520C9D /* Build configuration list for PBXNativeTarget "ShareUploadSwiftExt" */ = {
 			isa = XCConfigurationList;
@@ -589,6 +595,7 @@
 				FFA5684A19D0959000520C9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
