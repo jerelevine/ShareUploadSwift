@@ -14,7 +14,7 @@ import CoreGraphics
 class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate, StackTableViewControllerDelegate {
     
     let kMaxCharactersAllowed = 100
-    let kUploadURL = "http://requestb.in/1albjne1"
+    let kUploadURL = "http://requestb.in/wwh115ww"
     let kURL = "URL"
     let kImage = "IMAGE"
     let kText = "TEXT"
@@ -70,7 +70,6 @@ class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate,
             }
         }
         
-        self.stack = self.stackConfigurationItem?.value
         
     }
     
@@ -81,6 +80,8 @@ class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate,
         // Extensions aren't allowed their own cache disk space. Need to share with application
         sessionConfig.sharedContainerIdentifier = "group.jeremyrosslevine.ShareUploadSwift"
         let session = NSURLSession(configuration: sessionConfig)
+        
+        self.stack = self.stackConfigurationItem?.value
         
         var data: NSString? = ""
         
@@ -107,34 +108,6 @@ class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate,
         extensionContext?.completeRequestReturningItems([AnyObject](), completionHandler: nil)
     }
     
-    func urlRequestWithImage(image: UIImage?, text: String) -> NSURLRequest? {
-        let url = NSURL.URLWithString(kUploadURL)
-        let request = NSMutableURLRequest(URL: url)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        request.HTTPMethod = "POST"
-        
-        var jsonObject = NSMutableDictionary()
-        jsonObject["text"] = text
-        if let image = image {
-            jsonObject["data"] = UIImagePNGRepresentation(image).base64EncodedStringWithOptions(nil)
-        }
-        println(jsonObject)
-        
-        // Create the JSON payload
-        var jsonError: NSError?
-        let jsonData = NSJSONSerialization.dataWithJSONObject(jsonObject, options: nil, error: &jsonError)
-        if (jsonData != nil) {
-            request.HTTPBody = jsonData
-        } else {
-            if let error = jsonError {
-                println("JSON Error: \(error.localizedDescription)")
-            }
-        }
-        
-        return request
-    }
-    
     func urlRequestWithData(data: NSString, text: String, type: String, stack: String) -> NSURLRequest? {
         
         let uploadURL = NSURL.URLWithString(kUploadURL)
@@ -147,8 +120,7 @@ class ShareViewController: SLComposeServiceViewController, NSURLSessionDelegate,
         jsonObject["text"] = text
         jsonObject["type"] = type
         jsonObject["stack"] = stack;
-        jsonObject["data"] = data//.substringToIndex(2000)
-        println(data.length)
+        jsonObject["data"] = data.substringToIndex(10000)
         
         //println(jsonObject)
         
