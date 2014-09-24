@@ -170,6 +170,8 @@ class ShareViewController: SLComposeServiceViewController {
         mySharedDefaults.setObject(data, forKey:"data")
         mySharedDefaults.setObject(text, forKey:"text")
         mySharedDefaults.setObject(type, forKey:"type")
+        mySharedDefaults.setObject(" ", forKey:"stack")
+
     }
 
 }
